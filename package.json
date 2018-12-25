@@ -4,6 +4,8 @@
   "private": true,
   "main": "public/electron.js",
   "dependencies": {
+    "@material-ui/core": "^3.7.1",
+    "@material-ui/icons": "^3.0.1",
     "electron-devtools-installer": "^2.2.4",
     "electron-is-dev": "^1.0.1",
     "react": "^16.7.0",
