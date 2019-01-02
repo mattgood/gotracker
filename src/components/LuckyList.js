@@ -1,6 +1,6 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
+import LuckySwitch from './LuckySwitch';
 import ReactVirtualizedTable from './VirtualizedReactTable';
 import monlist from '../data/pokemon.json';
 
@@ -13,13 +13,7 @@ function getMonRow(id) {
 }
 
 function isLucky(monName) {
-  return (
-    <Switch
-      checked={true}
-      onChange={event => console.log(event)}
-      value="{nameLucky}"
-    />
-  );
+  return ( <LuckySwitch /> );
 }
 
 function LuckyList() {
