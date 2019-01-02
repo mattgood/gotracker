@@ -37,7 +37,7 @@ class NavBottom extends React.Component {
         className={classes.root}
       >
         <BottomNavigationAction label="News" icon={<NotificationsIcon />} />
-        <BottomNavigationAction label="Lists" icon={<FavoriteIcon />} />
+        <BottomNavigationAction label="Lucky List" icon={<FavoriteIcon />} />
         <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
       </BottomNavigation>
     );
