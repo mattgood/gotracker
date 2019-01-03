@@ -16,7 +16,14 @@ class LuckyList extends React.Component {
 
   componentWillUnmount = () => {
     console.log('unmount');
+    this.saveStateToLocalStorage();
   };
+
+  saveStateToLocalStorage = () => {
+    for (let key in this.state) {
+      localStorage.setItem(key, JSON.stringify(this.state[key]));
+    }
+  }
 
   getMonRow = (id) => {
     const name = monlist[id].name;
@@ -27,7 +34,7 @@ class LuckyList extends React.Component {
 
 
   isLucky = (monName) => {
-    return ( <LuckySwitch /> );
+    return ( <LuckySwitch name={monName}/> );
   };
 
   render() {
