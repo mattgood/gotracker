@@ -14,7 +14,8 @@
     "react-virtualized": "^9.21.0"
   },
   "scripts": {
-    "dev": "yarn react-scripts start",
+    "dev": "react-scripts start",
+    "start-web": "react-scripts start",
     "start": "concurrently \"cross-env BROWSER=none yarn react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "react-scripts build",
     "test": "react-scripts test",

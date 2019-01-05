@@ -27,6 +27,10 @@ class LuckyList extends React.Component {
     this.saveStateToLocalStorage();
   };
 
+  /**
+   * get data from local storage and popuplate this.state
+   *
+   */
   hydrateStateFromLocalStorage = () => {
     // only pull in pre-defefined values stored
     for (let stateKey in this.state) {
@@ -34,10 +38,11 @@ class LuckyList extends React.Component {
       if (!localStorage.hasOwnProperty(stateKey)) {
         continue;
       }
-
+      // pull data from local storage.
       let storageValue = localStorage.getItem(stateKey);
 
       try {
+        // json decode and set into local state variable.
         storageValue = JSON.parse(storageValue);
         this.setState({ [stateKey]: storageValue });
       } catch (e) {
@@ -47,17 +52,28 @@ class LuckyList extends React.Component {
     }
   }
 
+  /**
+   * save the current object state to local storage.
+   * 
+   */
   saveStateToLocalStorage = () => {
+    // TODO: revist - could be a lot of writes if this.state has many keys.
+    // currently we are only using one key.
     for (let key in this.state) {
       localStorage.setItem(key, JSON.stringify(this.state[key]));
     }
   }
 
+  /**
+   * Get the pokemon data for display on the table row.
+   * @param  {[type]} id [description]
+   * @return {[type]}    [description]
+   */
   getMonRow = (id) => {
     const name = monlist[id].name;
     const dex  = monlist[id].dex;
     const lucky = this.isLucky(name);
-    return { id, name, lucky, dex}
+    return { id, name, lucky, dex };
   };
 
 

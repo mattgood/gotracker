@@ -1,6 +1,12 @@
 import React from 'react';
 import Switch from '@material-ui/core/Switch';
 
+/**
+ * Switch Display component wrapper
+ * - which provides extra functionality around what happens when
+ *   switch is toggled.
+ * @extends React
+ */
 class LuckySwitch extends React.Component {
   state = {
     itemName: this.props.name,
