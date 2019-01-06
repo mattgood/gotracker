@@ -1,6 +1,7 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import LuckySwitch from './LuckySwitch';
+import ImageCard from './ImageCard';
 import ReactVirtualizedTable from './VirtualizedReactTable';
 import monlist from '../data/pokemon.json';
 
@@ -54,7 +55,7 @@ class LuckyList extends React.Component {
 
   /**
    * save the current object state to local storage.
-   * 
+   *
    */
   saveStateToLocalStorage = () => {
     // TODO: revist - could be a lot of writes if this.state has many keys.
@@ -62,7 +63,19 @@ class LuckyList extends React.Component {
     for (let key in this.state) {
       localStorage.setItem(key, JSON.stringify(this.state[key]));
     }
-  }
+  };
+
+  getImageCard = (id, name) => {
+    id = id.padStart(3,0);
+    // TODO: not all images end with 00
+    const image = require("../assets/img/pokemon-icons/pokemon_icon_" + id +"_00.png");
+    return (
+      <ImageCard
+        image={image}
+        title={name}
+      />
+    );
+  };
 
   /**
    * Get the pokemon data for display on the table row.
@@ -73,7 +86,8 @@ class LuckyList extends React.Component {
     const name = monlist[id].name;
     const dex  = monlist[id].dex;
     const lucky = this.isLucky(name);
-    return { id, name, lucky, dex };
+    const image = this.getImageCard(dex.toString(), name);
+    return { id, image, name, lucky, dex };
   };
 
 
@@ -113,6 +127,7 @@ class LuckyList extends React.Component {
       { lucky: luckyList },
       () => {
         //console.log(this.state);
+        this.saveStateToLocalStorage(); // could be bad with too many writes
       }
     );
   }
@@ -128,6 +143,12 @@ class LuckyList extends React.Component {
           }
           columns={[
             {
+              width: 128,
+              flexGrow: 0.0,
+              label: 'Image',
+              dataKey: 'image',
+            },
+            {
               width: 50,
               flexGrow: 1.0,
               label: 'Pokemon',
@@ -138,12 +159,6 @@ class LuckyList extends React.Component {
               flexGrow: 1.0,
               label: 'Lucky',
               dataKey: 'lucky',
-            },
-            {
-              width: 120,
-              label: 'Dex ID',
-              dataKey: 'dex',
-              numeric: true,
             }
           ]}
         />
