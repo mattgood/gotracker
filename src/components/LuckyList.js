@@ -67,8 +67,19 @@ class LuckyList extends React.Component {
 
   getImageCard = (id, name) => {
     id = id.padStart(3,0);
-    // TODO: not all images end with 00
-    const image = require("../assets/img/pokemon-icons/pokemon_icon_" + id +"_00.png");
+    let variant = '00';
+    if (id === "327" || id === "386") {
+      variant = '11';
+    }
+    if (name.match(/alola/gi)) {
+      variant = '61';
+    }
+    let image;
+    try {
+      image = require("../assets/img/pokemon-icons/pokemon_icon_" + id + "_" + variant + ".png");
+    } catch (e) {
+      image = require("../assets/img/Egg_A.png");
+    }
     return (
       <ImageCard
         image={image}
