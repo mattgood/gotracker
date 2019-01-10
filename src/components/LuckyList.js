@@ -148,6 +148,8 @@ class LuckyList extends React.Component {
       <Paper style={{ height: 560, width: '100%' }}>
         <ReactVirtualizedTable
           rowCount={monlist.length}
+          disableHeader={true}
+          rowHeight={74}
           rowGetter={({ index }) => this.getMonRow(index)}
           onRowClick={
             event => console.log(event)
