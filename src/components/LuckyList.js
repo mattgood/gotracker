@@ -1,27 +1,10 @@
 import React from 'react';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import ClearIcon from '@material-ui/icons/Clear';
-import FormControl from '@material-ui/core/FormControl';
 import LuckySwitch from './LuckySwitch';
 import ImageCard from './ImageCard';
+import FilterInput from './FilterInput';
 import ReactVirtualizedTable from './VirtualizedReactTable';
 import monlist from '../data/pokemon.json';
-
-const styles = theme => ({
-  margin: {
-    margin: theme.spacing.unit,
-  },
-  textField: {
-    flexBasis: 200,
-  },
-});
 
 class LuckyList extends React.Component {
 
@@ -40,8 +23,11 @@ class LuckyList extends React.Component {
 
   componentDidMount = () => {
     this.hydrateStateFromLocalStorage();
-    this.setState({ masterMonList: monlist });
-    this.setState({ masterMonCount: monlist.length });
+    this.setState({
+      masterMonList: monlist,
+      masterMonCount: monlist.length
+    });
+
     window.addEventListener(
       "beforeunload",
       this.saveStateToLocalStorage.bind(this)
@@ -202,73 +188,48 @@ class LuckyList extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+
     return (
       <div>
-      <Paper style={{ height: 94, width: '100%'}}>
-        <FormControl className={classNames(classes.margin, classes.textField)}>
-          <InputLabel htmlFor="filter-pokemon">FILTER</InputLabel>
-          <Input
-            id="filter-pokemon"
-            type="text"
-            value={this.state.filterQuery}
-            onChange={e => this.handleFilterDataChange(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="Clear Filter"
-                  onClick={e => {
-                      this.setState({filterQuery: ''});
-                      this.handleFilterDataChange("");
-                    }
-                  }
-                >
-                  <ClearIcon />
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-      </Paper>
-
-      <Paper style={{ height: 560, width: '100%' }}>
-        <ReactVirtualizedTable
-          rowCount={this.state.masterMonList.length}
-          disableHeader={true}
-          rowHeight={74}
-          rowGetter={({ index }) => this.getMonRow(index)}
-          onRowClick={
-            event => console.log(event)
-          }
-          columns={[
-            {
-              width: 128,
-              flexGrow: 0.0,
-              label: 'Image',
-              dataKey: 'image',
-            },
-            {
-              width: 50,
-              flexGrow: 1.0,
-              label: 'Pokemon',
-              dataKey: 'name',
-            },
-            {
-              width: 50,
-              flexGrow: 1.0,
-              label: 'Lucky',
-              dataKey: 'lucky',
-            }
-          ]}
+        <FilterInput
+          filterQuery={this.state.filterQuery}
+          onFilterChange={this.handleFilterDataChange}
         />
-      </Paper>
+
+        <Paper style={{ height: 560, width: '100%' }}>
+          <ReactVirtualizedTable
+            rowCount={this.state.masterMonCount}
+            disableHeader={true}
+            rowHeight={74}
+            rowGetter={({ index }) => this.getMonRow(index)}
+            onRowClick={
+              event => console.log(event)
+            }
+            columns={[
+              {
+                width: 128,
+                flexGrow: 0.0,
+                label: 'Image',
+                dataKey: 'image',
+              },
+              {
+                width: 50,
+                flexGrow: 1.0,
+                label: 'Pokemon',
+                dataKey: 'name',
+              },
+              {
+                width: 50,
+                flexGrow: 1.0,
+                label: 'Lucky',
+                dataKey: 'lucky',
+              }
+            ]}
+          />
+        </Paper>
       </div>
     );
   };
 }
 
-LuckyList.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(LuckyList);
+export default LuckyList;
