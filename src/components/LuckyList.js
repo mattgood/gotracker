@@ -1,8 +1,9 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import LuckySwitch from './LuckySwitch';
+import Switch from '@material-ui/core/Switch';
 import ImageCard from './ImageCard';
 import FilterInput from './FilterInput';
+import FilterTabs from './FilterTabs';
 import ReactVirtualizedTable from './VirtualizedReactTable';
 import monlist from '../data/pokemon.json';
 
@@ -133,21 +134,24 @@ class LuckyList extends React.Component {
   isLucky = (monName) => {
     const monIsLucky = this.state.lucky.includes(monName);
     return (
-      <LuckySwitch
-        name={monName}
-        isChecked={monIsLucky}
-        onSwitchChange={this.onLuckySwitchChange}
+      <Switch
+        checked={monIsLucky}
+        onChange={e => this.onLuckySwitchChange(e, e.target.checked)}
+        value={monName}
+        color="primary"
       />
     );
   };
 
   /**
-   * onLuckySwitchChange - sets the state of each switch
-   * @param  {[type]}  monName    pokemon name
-   * @param  {Boolean} isSwitchOn state of switch on/off
+   * onLuckySwitchChange - sets the pokemon based off state of the switch
+   * being toggled.
+   * @param  {[type]}  event      event object
+   * @param  {Boolean} isSwitchOn state of switch on/off (switch value checked or not checked)
    * @return {[type]}             [description]
    */
-  onLuckySwitchChange = (monName, isSwitchOn) => {
+  onLuckySwitchChange = (event, isSwitchOn) => {
+    const monName = event.target.value;
     let luckyList = [...this.state.lucky];
     if (isSwitchOn) {
       luckyList.push(monName)
@@ -187,6 +191,26 @@ class LuckyList extends React.Component {
     );
   }
 
+  handleTabChange = (value) => {
+    console.log('tab changed ' + value )
+    let list = monlist;
+    if (value === 'have') {
+      list = monlist.filter(
+        x => this.state.lucky.includes(x['name'])
+      );
+    } else if (value === 'need') {
+      list = monlist.filter(
+        x => !this.state.lucky.includes(x['name'])
+      );
+    }
+    this.setState(
+      {
+        masterMonList: list,
+        masterMonCount: list.length
+      }
+    );
+  }
+
   render() {
 
     return (
@@ -195,7 +219,9 @@ class LuckyList extends React.Component {
           filterQuery={this.state.filterQuery}
           onFilterChange={this.handleFilterDataChange}
         />
-
+        <FilterTabs
+          onTabChange={this.handleTabChange}
+        />
         <Paper style={{ height: 560, width: '100%' }}>
           <ReactVirtualizedTable
             rowCount={this.state.masterMonCount}
