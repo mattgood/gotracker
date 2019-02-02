@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import AppBarTop from './components/AppBarTop';
-import NavBottom from './components/NavBottom';
+import AppBarTop from './components/Layout/AppBarTop';
+import NavBottom from './components/Layout/NavBottom';
 import LuckyList from './components/LuckyList';
 
 class App extends Component {
