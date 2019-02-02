@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+
 import AppBarTop from './components/Layout/AppBarTop';
 import NavBottom from './components/Layout/NavBottom';
 import LuckyList from './components/LuckyList';
