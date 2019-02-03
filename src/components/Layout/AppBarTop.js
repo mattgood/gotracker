@@ -30,7 +30,7 @@ function AppBarTop(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Go Tracker
+            PoGo Tracker
           </Typography>
         </Toolbar>
       </AppBar>
