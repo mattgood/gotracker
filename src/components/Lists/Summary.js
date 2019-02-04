@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {Link} from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -37,8 +38,8 @@ function generate(element) {
 
 class Summary extends React.Component {
   state = {
-    dense: false,
-    secondary: false,
+    dense: true,
+    secondary: true,
   };
 
   render() {
@@ -57,7 +58,11 @@ class Summary extends React.Component {
             <div className={classes.demo}>
               <List dense={dense}>
                 {generate(
-                  <ListItem>
+                  <ListItem 
+                  component={Link}
+                  button={true}
+                  to="/list/1"
+                  >
                     <ListItemAvatar>
                       <Avatar>
                         <FolderIcon />
