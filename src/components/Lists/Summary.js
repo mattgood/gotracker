@@ -18,13 +18,15 @@ import {Link} from 'react-router-dom';
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    maxWidth: 1350,
+    width: 'auto',
+    marginLeft: theme.spacing.unit * .5,
+    marginRight: theme.spacing.unit * .5,
   },
   demo: {
     backgroundColor: theme.palette.background.paper,
   },
   title: {
-    margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`,
+    margin: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 2}px`,
   },
 });
 
@@ -47,8 +49,8 @@ class Summary extends React.Component {
     const { dense, secondary } = this.state;
 
     return (
-      <div className={classes.root}>
-        <Paper style={{ height: '100%', width: '100%' }}>
+      <div>
+        <Paper className={classes.root} elevation={1} square={true}>
         <Grid container spacing={12}>
       
           <Grid item xs={12}>
