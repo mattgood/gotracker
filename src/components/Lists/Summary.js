@@ -28,6 +28,9 @@ const styles = theme => ({
   title: {
     margin: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 2}px`,
   },
+  list_summary: {
+    'margin-top': 0,
+  }
 });
 
 function generate(element) {
@@ -49,42 +52,41 @@ class Summary extends React.Component {
     const { dense, secondary } = this.state;
 
     return (
-      <div>
+      <div id="list-summary-page">
         <Paper className={classes.root} elevation={1} square={true}>
-        <Grid container spacing={12}>
-      
-          <Grid item xs={12}>
-            <Typography variant="h6" className={classes.title}>
-              Avatar with text and icon
-            </Typography>
-            <div className={classes.demo}>
-              <List dense={dense}>
-                {generate(
-                  <ListItem 
-                  component={Link}
-                  button={true}
-                  to="/list/1"
-                  >
-                    <ListItemAvatar>
-                      <Avatar>
-                        <FolderIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Single-line item"
-                      secondary={secondary ? 'Secondary text' : null}
-                    />
-                    <ListItemSecondaryAction>
-                      <IconButton aria-label="Delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>,
-                )}
-              </List>
-            </div>
+          <Grid container spacing={16} className={classes.list_summary}>
+            <Grid item xs={12} >
+              <Typography variant="h6" className={classes.title}>
+                Lists
+              </Typography>
+              <div className={classes.demo}>
+                <List dense={dense}>
+                  {generate(
+                    <ListItem 
+                    component={Link}
+                    button={true}
+                    to="/list/1"
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                          <FolderIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Single-line item"
+                        secondary={secondary ? 'Secondary text' : null}
+                      />
+                      <ListItemSecondaryAction>
+                        <IconButton aria-label="Delete">
+                          <DeleteIcon />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>,
+                  )}
+                </List>
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
         </Paper>
       </div>
     );
