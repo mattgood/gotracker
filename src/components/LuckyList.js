@@ -89,21 +89,24 @@ class LuckyList extends React.Component {
   };
 
   getImageCard = (id, name) => {
-    id = id.padStart(3,0);
-    // TODO: fix this this variant stuff
-    let variant = '00';
-    if (id === "327" || id === "386") {
-      variant = '11';
-    }
+
+    let dexId = id.padStart(3,'0');
+    let baseImgPath = 'raw.githubusercontent.com/ZeChrales/PogoAssets/master/pokemon_icons/pokemon_icon_';
+    let cachebuster = '';
+    let variant = '_00';
     if (name.match(/alola/gi)) {
-      variant = '61';
+      variant = '_61';
     }
-    let image;
-    try {
-      image = require("../assets/img/pokemon-icons/pokemon_icon_" + id + "_" + variant + ".png");
-    } catch (e) {
-      image = require("../assets/img/Egg_A.png");
+    // todo fix the variant so this is not hard coded:
+    if (id === "327" || id === "386") {
+      variant = "_11";
     }
+
+    let number = dexId + variant;
+    let shiny = '';
+
+    let image = "//images.weserv.nl/?w=80&il&url=" + baseImgPath + number + shiny + ".png" + cachebuster;
+
     return (
       <ImageCard
         image={image}
