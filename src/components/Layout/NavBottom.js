@@ -51,7 +51,7 @@ class NavBottom extends React.Component {
           value="dashboard"
         />
         <BottomNavigationAction
-          label="Lucky List"
+          label="Lists"
           icon={<FavoriteIcon />}
           component={Link}
           to="/lists"

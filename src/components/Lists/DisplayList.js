@@ -1,13 +1,13 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
-import ImageCard from './ImageCard';
-import FilterInput from './FilterInput';
-import FilterTabs from './FilterTabs';
-import ReactVirtualizedTable from './VirtualizedReactTable';
-import monlist from '../data/pokemon.json';
+import ImageCard from '../ImageCard';
+import FilterInput from '../FilterInput';
+import FilterTabs from '../FilterTabs';
+import ReactVirtualizedTable from '../VirtualizedReactTable';
+import monlist from '../../data/pokemon.json';
 
-class LuckyList extends React.Component {
+class DisplayList extends React.Component {
 
   state = {
     filterQuery: '',
@@ -261,4 +261,4 @@ class LuckyList extends React.Component {
   };
 }
 
-export default LuckyList;
+export default DisplayList;
