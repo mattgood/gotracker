@@ -16,7 +16,7 @@ class App extends Component {
           <Switch>
             <Route path="/dashboard" component={Overview}/>
             <Route path="/lists" component={ListSummary}/>
-            <Route path="/list/:id" component={DisplayList}/>
+            <Route path="/list/:listName" component={DisplayList}/>
             <Route path="/settings" component={Settings}/>
           </Switch>
           <NavBottom />
