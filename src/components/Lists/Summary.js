@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import ListRow from '../Elements/ListRow';
-import { list } from 'postcss';
+
 
 const styles = theme => ({
   root: {
