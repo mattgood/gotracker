@@ -10,8 +10,13 @@ import monlist from '../../data/pokemon.json';
 class DisplayList extends React.Component {
 
   state = {
+    currentListName: 'default',
     filterQuery: '',
     lucky: [],
+    lists: {
+      lucky: ['Ivysaur'],
+      shiny: ['Squirtle']
+    },
     masterMonList: {},
     masterMonCount: 0
   };
@@ -20,15 +25,17 @@ class DisplayList extends React.Component {
    * Skip Stoarge list of state values that we don't want to add to storage
    * @type {Array}
    */
-  skipStorage = ["filterQuery", "masterMonList", "masterMonCount"]
+  skipStorage = ["currentListName", "filterQuery", "masterMonList", "masterMonCount"]
 
   componentDidMount = () => {
+    console.log(this.props.match.params.listName)
     this.hydrateStateFromLocalStorage();
     this.setState({
+      currentListName: this.props.match.params.listName,
       masterMonList: monlist,
       masterMonCount: monlist.length
     });
-
+    console.log({...this.state});
     window.addEventListener(
       "beforeunload",
       this.saveStateToLocalStorage.bind(this)
@@ -65,6 +72,7 @@ class DisplayList extends React.Component {
       try {
         // json decode and set into local state variable.
         storageValue = JSON.parse(storageValue);
+
         this.setState({ [stateKey]: storageValue });
       } catch (e) {
         // if json data fails, empty string or value
@@ -118,28 +126,38 @@ class DisplayList extends React.Component {
   /**
    * Get the pokemon data for display on the table row.
    * @param  {[type]} id [description]
+   * @param  {[type]} currentList [description]
    * @return {[type]}    [description]
    */
-  getMonRow = (id) => {
+  getMonRow = (id, currentList) => {
     const name = this.state.masterMonList[id].name;
     const dex  = this.state.masterMonList[id].dex;
-    const lucky = this.isLucky(name);
+    const selected = this.monIsSelected(name, currentList);
     const image = this.getImageCard(dex.toString(), name);
-    return { id, image, name, lucky, dex };
+    return { id, image, name, selected, dex };
   };
 
+  getCurrentListFromState = (listName) => {
+    const stateLists = {...this.state.lists};
+    const list = stateLists[listName];
+    return list;
+  };
+
+  // handleSetState = ()
 
   /**
-   * isLucky helper to display LuckySwitch component
+   * monIsSelected helper to display Switch component
    * @param  {[type]}  monName [description]
+   * @param  {[type]}  currentList [description]
    * @return {Boolean}         [description]
    */
-  isLucky = (monName) => {
-    const monIsLucky = this.state.lucky.includes(monName);
+  monIsSelected = (monName, currentList) => {
+    
+    const monIsSet = currentList.includes(monName);
     return (
       <Switch
-        checked={monIsLucky}
-        onChange={e => this.onLuckySwitchChange(e, e.target.checked)}
+        checked={monIsSet}
+        onChange={e => this.onSwitchChange(e, e.target.checked)}
         value={monName}
         color="primary"
       />
@@ -147,25 +165,28 @@ class DisplayList extends React.Component {
   };
 
   /**
-   * onLuckySwitchChange - sets the pokemon based off state of the switch
+   * onSwitchChange - sets the pokemon based off state of the switch
    * being toggled.
    * @param  {[type]}  event      event object
    * @param  {Boolean} isSwitchOn state of switch on/off (switch value checked or not checked)
    * @return {[type]}             [description]
    */
-  onLuckySwitchChange = (event, isSwitchOn) => {
+  onSwitchChange = (event, isSwitchOn) => {
+    const listName = this.state.currentListName;
+    let currentList = this.getCurrentListFromState(listName);
     const monName = event.target.value;
-    let luckyList = [...this.state.lucky];
+    
     if (isSwitchOn) {
-      luckyList.push(monName)
+      currentList.push(monName)
     } else {
-      luckyList = luckyList.filter(name => {
+      currentList = currentList.filter(name => {
         return monName !== name;
       });
     }
-
+    const stateLists = {...this.state.lists};
+    stateLists[listName] = currentList;
     this.setState(
-      { lucky: luckyList },
+      { lists: stateLists },
       () => {
         //console.log(this.state);
         this.saveStateToLocalStorage(); // could be bad with too many writes
@@ -196,14 +217,16 @@ class DisplayList extends React.Component {
 
   handleTabChange = (value) => {
     console.log('tab changed ' + value )
+    const listName = this.state.currentListName;
+    let currentList = this.getCurrentListFromState(listName);
     let list = monlist;
     if (value === 'have') {
       list = monlist.filter(
-        x => this.state.lucky.includes(x['name'])
+        x => currentList.includes(x['name'])
       );
     } else if (value === 'need') {
       list = monlist.filter(
-        x => !this.state.lucky.includes(x['name'])
+        x => !currentList.includes(x['name'])
       );
     }
     this.setState(
@@ -216,6 +239,7 @@ class DisplayList extends React.Component {
 
   render() {
 
+    let currentListArray = this.getCurrentListFromState(this.state.currentListName);
     return (
       <div>
         <FilterInput
@@ -230,7 +254,7 @@ class DisplayList extends React.Component {
             rowCount={this.state.masterMonCount}
             disableHeader={true}
             rowHeight={74}
-            rowGetter={({ index }) => this.getMonRow(index)}
+            rowGetter={({ index }) => this.getMonRow(index, currentListArray)}
             onRowClick={
               event => console.log(event)
             }
@@ -250,8 +274,8 @@ class DisplayList extends React.Component {
               {
                 width: 50,
                 flexGrow: 1.0,
-                label: 'Lucky',
-                dataKey: 'lucky',
+                label: 'Have',
+                dataKey: 'selected',
               }
             ]}
           />
