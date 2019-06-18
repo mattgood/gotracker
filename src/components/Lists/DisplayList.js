@@ -175,7 +175,7 @@ class DisplayList extends React.Component {
     const listName = this.state.currentListName;
     let currentList = this.getCurrentListFromState(listName);
     const monName = event.target.value;
-    
+
     if (isSwitchOn) {
       currentList.push(monName)
     } else {
@@ -215,6 +215,13 @@ class DisplayList extends React.Component {
     );
   }
 
+  /**
+   * handleTabChange - re-filter the list based off of the current tab.
+   * - all
+   * - have - only display ones they have selected
+   * - need - only display ones they haven't selected
+   * @param  {string} value Name of the tab
+   */
   handleTabChange = (value) => {
     console.log('tab changed ' + value )
     const listName = this.state.currentListName;
